@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 1 - Portafolio</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    
+    <!-- Página principal -->
+
+    <!-- Encabezado y menú de navegación entre -->
+
+    <header>
+        <div class="top">
+            <div class="boss">
+                <h1>Javier Martínez González</h1>
+                <a href="index.html"><img src="imagenes/Foto de perfil.jpg" alt="Imagen de perfil encabezadi" class="foto_encabezado"></a>
+            </div> 
+            <nav class="links">
+                <a href="perfil.html">Perfil</a>
+                <a href="experiencia.html">Experiencia</a>
+                <a href="aptitudes.html">Aptitudes</a>
+                <a href="hobbies.html">Hobbies</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="principal">
+
+        <button class="button" id="btn"></button>
+        <script>
+            const btn = document.getElementById('btn');
+            let i = 0;
+            const colores = ['orange','blue','grey','wheat','green','yellow']
+            btn.addEventListener('click', function onClick(){
+                btn.style.backgroundColor = colores[i];
+                i = i >= colores.length - 1 ? 0 : i + 1;
+            });
+        </script>
+
+        <script>
+            function audio() {
+                var audio = document.getElementById("audio");
+                audio.play();
+        }
+        </script>
+        <input type="button" value="jijijaja" onclick="audio()"></button>
+        <audio id="audio" src="audio/jijijaja.mp3"></audio>
+
+    </div>
+
+
+
+    <!-- Footer, links y teléfono de contacto -->
+
+    <footer>
+        <div>
+            <a href="https://www.instagram.com/xamargona/" id="instagram"><img src="imagenes/insta1.png" alt="Instagram Icon"></a>
+            <a href="https://twitter.com/Xamargo14" id="twitter"><img src="imagenes/tw1.png" alt="Twitter Icon"></a>
+            <a href="https://open.spotify.com/user/jamargon14" id="spotify"><img src="imagenes/spotify1.png" alt="Spotify Icon"></a>
+            <a href="https://www.pinterest.es/Xamargona/" id="pinterest"><img src="imagenes/pinterest1.png" alt="Pinterest Icon"></a>
+        </div>
+        <div class="info_variada">
+            <a href="https://youtu.be/WlLxlCitwe8">© Septiembre 2022 Monsters, Inc.</a>
+            <a href="https://es.wikipedia.org/wiki/Brandon_Sanderson">Política de privacidad</a>
+            <p>TLF: 662032890</p>
+    </footer>
+
+</body>

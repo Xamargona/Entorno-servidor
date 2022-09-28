@@ -1,0 +1,308 @@
+/*  Configuración general de la página  */
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+/*---------------------------------------------------------------------------------*/
+
+/*  Configuración del apartado principal y menú de navegación   */
+
+/* Contenedor del titulo e imagen */
+
+.top{
+    display: flex;
+    background-color: black;
+    color: white;
+    width: 100%;
+    flex-direction: row;
+    padding-left: 15px;
+}
+
+.boss{
+    display: flex;
+    flex-direction: row;
+    width: 29%;
+}
+
+.foto_encabezado {
+    width:50px;
+    height:50px;
+    border-radius:150px;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.links{
+    display: flex;
+    flex-direction: row;
+    width: 71%;
+    margin-left: 20px;
+}
+
+.links > a{
+    text-align: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    padding-top: 25px;
+    font-size: 22px;
+    background-color: rgb(47, 47, 47);
+    color: white;
+}
+
+.links > a:hover{
+    background-color: rgb(170, 170, 170);
+}
+
+/* Lista */
+
+header > ul{
+    margin: 0px;
+    margin-bottom: 15px;
+}
+
+header > ul > li{
+    list-style:circle;
+    margin: 5px;
+}
+
+header > ul > li > a{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+header > ul > li > a:hover{
+    color: blue;
+    text-decoration: underline;
+}
+
+/*---------------------------------------------------------------------------------*/
+
+/* Configuración apartados */
+
+/*---------------------------------------*/
+
+/* Botón página principal */
+
+.button{
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background-color: red;
+    box-shadow: 0px 5px 5px 0px;
+}
+.principal{
+    text-align: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+/*---------------------------------------*/
+
+/* Perfil */
+
+.imagenes_perfil{
+    width: 100%;
+}
+
+.imagenes_perfil > img{
+    height: 420px;
+}
+
+.extra{
+    margin-bottom: 100px;
+    display: flex;
+    flex-direction: row;
+}
+
+.extra > a{
+    margin-left: 10px;
+    padding-top: 5px;
+}
+
+.extra > a > img {
+    width: 25px;
+    height: 25px;
+}
+
+/*---------------------------------------*/
+
+/* Experiencia */
+
+.titulo_exp_section{
+    width: 100%;
+    text-align: center;
+}
+
+.titulo_exp_section > h2{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.caja_conocimientos{
+    display: flex;
+    flex-direction: row;
+}
+
+.caja_conocimientos > section{
+    width: 33%;
+    height: 100%;
+    padding: 5px;
+}
+
+.exp_section > ul > li > p{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.exp_laboral > p{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.formacion > ul > li > p{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/*---------------------------------------*/
+
+/* Aptitudes */
+
+.section_aptitudes{
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+}
+
+.section_aptitudes > h2{
+    text-decoration: underline;
+}
+
+.section_aptitudes > ul{
+    padding: 0px;
+}
+
+.section_aptitudes > ul > li{
+    list-style: none;
+    padding: 0px;
+}
+
+.section_aptitudes > ul > li >p{
+    text-decoration: none;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 0;
+    margin-left: 0px;
+}
+
+/* Hobbies */
+
+.section_hobbies{
+    text-align: center;
+    justify-content: center;
+}
+
+.section_hobbies > h2{
+    text-decoration: underline;
+    margin-bottom: 15px;
+}
+
+.caja_hobbies{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 10%;
+}
+
+.caja_hobbies > a > img{
+    width: 125px;
+    height: 125px;
+    border-radius: 150px;
+}
+
+.img_procrastinar{
+    border: 1px solid black;
+}
+
+/*---------------------------------------------------------------------------------*/
+
+/*  Configuración footer  */
+
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid rgb(16, 16, 16);
+    color: black;
+    background-color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+footer > div > a > img{
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+footer > h3 {
+    margin: 5px;
+}
+
+#instagram:hover{
+    content:url(imagenes/insta2.png);
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+#twitter:hover{
+    content:url(imagenes/tw2.png);
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+#spotify:hover{
+    content:url(imagenes/spotify2.png);
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+#pinterest:hover{
+    content:url(imagenes/pinterest2.png);
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.info_variada{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.info_variada > a,p {
+    margin-left: 15px;
+    font-size: small;
+    font-family:'Courier New', Courier, monospace;
+    text-decoration: none;
+    color: black;
+}
