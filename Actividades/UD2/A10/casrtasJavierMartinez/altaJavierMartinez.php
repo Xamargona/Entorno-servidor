@@ -33,42 +33,32 @@
         $nombreJugadores = ["Juan", "Pepe"];
 
         for ($i=0; $i < $numJugadores; $i++) { 
-            $jugadores[] = ["nombre" => $nombreJugadores[$i], "mano" => []];
+            for ($j=0; $j < 10; $j++) { 
+                $mano[] = array_pop($cartas);
+            }
+            $jugadores[] = ["nombre" => $nombreJugadores[$i], "mano" => $mano];
+            unset($mano);
         }
-
-
-        foreach ($jugadores as $jugador) {
-            
-            for ($i=0; $i < 2; $i++) { 
-                $mano = array_pop($cartas);
-            }
-
-            foreach ($jugador as $atributos => $value) {
-                if ($atributos == "mano") {
-                   array_push($value, $mano);
-                }
-            }
-        }   
-        var_dump($jugadores);
         /*
         for ($i=0; $i < 10; $i++) { 
                 $manoJ1[] = array_pop($cartas);
                 $manoJ2[] = array_pop($cartas);
         }
         */
-/*
+
         echo '<section>';
 
-        foreach ($jugadores as $jugador => $value) {
-            echo '<article class="jugador"><h2>Jugador '.$value.': '.$jugador["nombre"].'</h2>';
+        foreach ($jugadores as $jugador) {
+            echo '<article class="jugador"><h2>Jugador: '.$jugador["nombre"].'</h2>';
             echo '<div class="mano">';
-            foreach ($mano as $carta) {
+            foreach ($jugador["mano"] as $carta) {
                 echo '<img src="baraja/'.$carta["imagen"].'" alt="'. $carta["valor"] .' de '. $carta["palo"].'">';
             }
             echo '</div></article>';
         }
+
         echo '</section>';
-*/
+
     ?>
 </body>
 </html>
