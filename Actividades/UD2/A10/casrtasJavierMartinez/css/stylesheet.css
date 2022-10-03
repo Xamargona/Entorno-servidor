@@ -1,0 +1,39 @@
+/*  Configuración general de la página  */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+/**/
+
+section {
+    display: flex;
+    margin: auto;
+    padding: 0%;
+    flex-direction: column;
+}
+
+.jugador {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.mano {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+    justify-content: space-around;
+    
+}
+
+img {
+    width: 9%;
+    height: auto;
+}
