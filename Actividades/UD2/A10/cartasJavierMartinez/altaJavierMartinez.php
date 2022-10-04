@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Actividad 10: Alta - Javier Martínez</title>
-<link rel="stylesheet" href="css/stylesheet.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 10 - La carta más alta</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
-<h1>Carta más alta</h1>
+    
+    <h1 class="titulo">La carta más alta</h1>
     
     <?php
+
+        include("cabecera.inc.php");
 
         /* Eliminar caché */
 
@@ -44,7 +47,7 @@
         $aux = 1;
 
         foreach ($jugadores as $jugador) {
-            echo '<article class="jugador"><h2>Jugador '.$aux.': '.$jugador["nombre"].'</h2>';
+            echo '<article class="jugadorAlta"><h2>Jugador '.$aux.': '.$jugador["nombre"].'</h2>';
             echo '<div class="mano">';
             foreach ($jugador["mano"] as $carta) {
                 echo '<img src="baraja/'.$carta["imagen"].'" alt="'. $carta["valor"] .' de '. $carta["palo"].'">';
@@ -104,7 +107,7 @@
 
         if ($puntuacionJ1 > $puntuacionJ2) {
             echo '<p>Ganador: '.$nombresJugadores[0].'</p>';
-        } else if ($puntuacionJ1 < $puntuacionJ2) {
+        } elseif ($puntuacionJ1 < $puntuacionJ2) {
             echo '<p>Ganador: '.$nombresJugadores[1].'</p>';
         } else {
             echo '<p>Empate</p>';

@@ -1,0 +1,99 @@
+/*  Configuración general de la página  */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ajustes globales */
+
+.titulo {
+    background-color: wheat;
+    margin: 0;
+    padding: 15px;
+}
+
+li {
+    list-style: circle;
+    margin: 2px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+a:hover{
+    color: blue;
+    font-size: 19px;
+}
+
+.portada {
+    width: 100%;
+    height: auto;
+    margin: 0;
+}
+
+section {
+    display: flex;
+    margin: auto;
+    padding: 0;
+    flex-direction: column;
+}
+
+img {
+    width: auto;
+    height: 185px;
+    margin: 0.8vh;
+}
+
+h2, p {
+    margin-left: 10px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: auto;
+}
+
+.mano {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+    justify-content: space-around;
+}
+
+/* CSS Alta */
+
+.jugadorAlta {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+/* CSS 21 */
+
+.jugadores{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.jugadorBJ, .banca {
+    align-self: center;
+    text-align: center;
+    width: fit-content;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 25px;
+    padding-bottom: 10px;
+    margin: 15px;
+}
