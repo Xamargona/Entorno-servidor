@@ -8,13 +8,16 @@ body {
     margin: 0;
 }
 
-/**/
-
 section {
     display: flex;
     margin: auto;
-    padding: 0%;
+    padding: 0;
     flex-direction: column;
+}
+
+img {
+    width: 9%;
+    height: auto;
 }
 
 .jugador {
@@ -30,10 +33,13 @@ section {
     width: 100%;
     padding: 15px;
     justify-content: space-around;
-    
 }
 
-img {
-    width: 9%;
-    height: auto;
+h1, h2, p {
+    margin-left: 10px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: auto;
 }

@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>Actividad 10: Alta - Javier Martínez</title>
 <link rel="stylesheet" href="css/stylesheet.css">
-
 </head>
 <body>
-<h1>a</h1>
+<h1>Carta más alta</h1>
     
     <?php
 
@@ -24,41 +23,94 @@
 
         shuffle($cartas);
 
-        $numJugadores = 2;
+        /* Cantidad de cartas, jugadores y nombres de lo jugadores */
 
-        /*
-            jugadores --> j1[nombre, mano[]], j2[nombre, mano[]]
-        */
+        $nombresJugadores = ["Juan", "Pepe"];
 
-        $nombreJugadores = ["Juan", "Pepe"];
+        $cartasARepartir = 10;
 
-        for ($i=0; $i < $numJugadores; $i++) { 
-            for ($j=0; $j < 10; $j++) { 
+        for ($i=0; $i < count($nombresJugadores); $i++) { 
+            for ($j=0; $j < $cartasARepartir; $j++) { 
                 $mano[] = array_pop($cartas);
             }
-            $jugadores[] = ["nombre" => $nombreJugadores[$i], "mano" => $mano];
+            $jugadores[] = ["nombre" => $nombresJugadores[$i], "mano" => $mano];
             unset($mano);
         }
-        /*
-        for ($i=0; $i < 10; $i++) { 
-                $manoJ1[] = array_pop($cartas);
-                $manoJ2[] = array_pop($cartas);
-        }
-        */
+
+        /* Creación de contenido HTML y mostrar las manos de los jugadores */
 
         echo '<section>';
 
+        $aux = 1;
+
         foreach ($jugadores as $jugador) {
-            echo '<article class="jugador"><h2>Jugador: '.$jugador["nombre"].'</h2>';
+            echo '<article class="jugador"><h2>Jugador '.$aux.': '.$jugador["nombre"].'</h2>';
             echo '<div class="mano">';
             foreach ($jugador["mano"] as $carta) {
                 echo '<img src="baraja/'.$carta["imagen"].'" alt="'. $carta["valor"] .' de '. $carta["palo"].'">';
             }
             echo '</div></article>';
+            $aux++;
         }
+
+        $aux = 0;
 
         echo '</section>';
 
+        /* Puntuaciones */
+
+        /* Cálculo de puntuaciones */
+
+        $puntuacionJ1 = 0;
+        $puntuacionJ2 = 0;
+
+        for ($i=0; $i < $cartasARepartir; $i++) { 
+
+            $puntosCartaJ1 = $jugadores[0]["mano"][$i]["valor"];
+            $puntosCartaJ2 = $jugadores[1]["mano"][$i]["valor"];
+
+            if ($puntosCartaJ1 == "J") {
+                $puntosCartaJ1 = 11;
+            } elseif ($puntosCartaJ1 == "Q") {
+                $puntosCartaJ1 = 12;
+            } elseif ($puntosCartaJ1 == "K") {
+                $puntosCartaJ1 == 13;
+            }
+
+            if ($puntosCartaJ2 == "J") {
+                $puntosCartaJ2 = 11;
+            } elseif ($puntosCartaJ2 == "Q") {
+                $puntosCartaJ2 = 12;
+            } elseif ($puntosCartaJ2 == "K") {
+                $puntosCartaJ2 == 13;
+            }
+
+            if ($puntosCartaJ1 == $puntosCartaJ2) {
+                $puntuacionJ1++;
+                $puntuacionJ2++;
+            } elseif ($puntosCartaJ1 > $puntosCartaJ2) {
+                $puntuacionJ1 = $puntuacionJ1 + 2;
+            } elseif ($puntosCartaJ2 > $puntosCartaJ1) {
+                $puntuacionJ2 = $puntuacionJ2 + 2;
+            } 
+        }
+
+        /* Muestra de las puntuaciones */
+
+        echo '<section><h1>Resultado de la partida:</h1>';
+
+        echo '<p>'.$nombresJugadores[0].': '.$puntuacionJ1.'</p>';
+        echo '<p>'.$nombresJugadores[1].': '.$puntuacionJ2.'</p>';
+
+        if ($puntuacionJ1 > $puntuacionJ2) {
+            echo '<p>Ganador: '.$nombresJugadores[0].'</p>';
+        } else if ($puntuacionJ1 < $puntuacionJ2) {
+            echo '<p>Ganador: '.$nombresJugadores[1].'</p>';
+        } else {
+            echo '<p>Empate</p>';
+        }
+        echo '</section>';
     ?>
+
 </body>
 </html>
