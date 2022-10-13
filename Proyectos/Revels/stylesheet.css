@@ -1,0 +1,9 @@
+/*  Configuración general de la página  */
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
