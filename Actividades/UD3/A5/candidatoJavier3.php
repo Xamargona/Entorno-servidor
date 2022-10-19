@@ -101,6 +101,49 @@
         }
 
         // Compruebo la existencia del archivo, si existe compruebo sus errores y tipo
+        if (empty($_FILES['cv'])) {
+            $errores = true;
+            $error['cv'] = '<p>No has introducido ningun archivo</p>';
+        } elseif ($_FILES['cv']['error'] != UPLOAD_ERR_OK) {
+            $errores = true;
+            switch ($_FILES['cv']['error']) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    $error['cv'] = '<p>El fichero es demasiado grande</p>';
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    $error['cv'] = '<p>El fichero no se ha podido subir entero</p>';
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    $error['cv'] = '<p>No se ha podido subir el fichero</p>';
+                    break;
+                default:
+                    $error['cv'] = '<p>Error indeterminado</p>';
+                    break;
+            }
+        } elseif ($_FILES['cv']['type'] != 'application/pdf') {
+            $errores = true;
+            $error['cv'] = '<p>No se trata de un archivo pdf</p>';
+
+        } elseif (is_uploaded_file($_FILES['cv']['tmp_name']) === true) {
+
+            // Comprobamos su existencia y se guarda bajo un id único DNI + nombre + apellido + nombre_cv
+            // Comprobamos que el DNI sea válido y que no hayan problemas al mover el archivo
+            if (!isset($error)) {
+                $aux = strrpos($_POST['apellidos'], " ");
+                $nombre_cv = $_POST['dni'].'-'.$_POST['nombre'].'-'.substr($_POST['apellidos'], 0, $aux).'.pdf';
+                if (!move_uploaded_file($_FILES['cv']['tmp_name'], $nombre_cv)) {
+                    $error['cv'] = '<p>No se puede mover el fichero a su destino</p>';
+                }
+            } else {
+                $error['cv'] = '<p>El currículum no se puede guardar debido a que el formulario no está completo</p>';
+            }
+        } else {
+            $error['cv'] = '<p>Posible ataque. '.$_FILES['cv']['name'].'</p>';
+        }
+
+
+        // Compruebo la existencia del archivo, si existe compruebo sus errores y tipo
         if (empty($_FILES['foto'])) {
             $errores = true;
             $error['foto'] = '<p>No has introducido ninguna imagen</p>';
@@ -125,16 +168,17 @@
             $errores = true;
             $error['foto'] = '<p>No se trata de una imagen png</p>';
 
-            // En caso de subir el archivo comprobamos q no existe, en esta caso en el directorio raíz 
         } elseif (is_uploaded_file($_FILES['foto']['tmp_name']) === true) {
+
             // Comprobamos su existencia y se guarda bajo un id único DNI + nombre_foto
-            if (!isset($error['dni'])) {
+            // Comprobamos que el DNI sea válido y que no hayan problemas al mover el archivo
+            if (!isset($error)) {
                 $nombre_foto = $_POST['dni'].'.png';
                 if (!move_uploaded_file($_FILES['foto']['tmp_name'], $nombre_foto)) {
                     $error['foto'] = '<p>No se puede mover el fichero a su destino</p>';
                 }
             } else {
-                $error['foto'] = '<p>La imagen no se puede guardar debido a un error con otro campo del formulario</p>';
+                $error['foto'] = '<p>La imagen no se puede guardar debido a que el formulario no está completo</p>';
             }
         } else {
             $error['foto'] = '<p>Posible ataque. '.$_FILES['foto']['name'].'</p>';
@@ -149,8 +193,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form productos</title>
     <style>
-        label, input {
-            margin: 4px;
+        label, input , p{
+            margin: 10px;
+        }
+        p {
+            color: red;
+        }
+        .final{
+            color: black;
         }
     </style>
 </head>
@@ -217,7 +267,12 @@
                     }
                 ?>
                 <label for="cv">Currículum</label><br>
-    
+                <input type="file" name="cv" id="cv">
+                <?php
+                    if (isset($error['cv'])) {
+                        echo $error['cv'];
+                    }
+                ?><br>
                 <label for="foto">Foto de perfil</label><br>
                 <input type="file" name="foto" id="foto">
                 <?php
@@ -229,7 +284,7 @@
             </form>
             <?php
         } else {
-            echo '<p>La solicitud se ha realizado correctamente.</p>';
+            echo '<p class="final">La solicitud se ha realizado correctamente.</p>';
         }
     ?>
 </body>
