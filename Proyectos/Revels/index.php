@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-    <header>
-            <a href=""><img src="images/logo-placeholder.png" alt="logo" id="logo"></a>
-        <h1>Revels</h1>
-    </header>
+    <img src="images/xd.png" alt="a">
+    <section>   
+        <form action="" method="post" class="form">
+        <h2>Log In</h2>
+            <p type="Correo:"><input placeholder="Correo electrónico" type="text"></p>
+            <p type="Contraseña:"><input placeholder="Contraseña" type="password"></p>
+            <button>Iniciar sesión</button>
+        </form>
+    </section>
 </body>
 </html>
