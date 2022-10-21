@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-    <img src="images/xd.png" alt="a">
-    <section>   
-        <form action="" method="post" class="form">
-        <h2>Log In</h2>
+    <img class="logo" src="images/xd.png" alt="a">
+    <section class="section-forms">   
+        <form action="" method="post" class="form-login">
+        <h2 class="title-form">Log In</h2>
             <p type="Correo:"><input placeholder="Correo electrónico" type="text"></p>
             <p type="Contraseña:"><input placeholder="Contraseña" type="password"></p>
-            <button>Iniciar sesión</button>
+            <button class="button-login">Iniciar sesión</button>
         </form>
     </section>
 </body>
