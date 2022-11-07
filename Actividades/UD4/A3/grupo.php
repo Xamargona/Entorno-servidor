@@ -12,7 +12,6 @@
 </head>
 <body>
 <?php
-        // Realizamos una consulta a la base de datos para obtener los datos de los jugadores y lo mostramos en formato tabla para una mejor visualización
         $resultado = $conexion->query('SELECT * FROM albumes WHERE grupo = '.$_GET['codigo']);
         // Mostremos los datos de los grupos en una lista
         echo '<Ul>';

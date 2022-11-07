@@ -1,0 +1,66 @@
+/* General */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+/* Muestra de enlaces */
+
+img {
+    height: 1em;
+    width: auto;
+    margin-left: 1em;
+}
+
+a:first-child {
+    display: inline-block;
+    width: 10em;
+}
+
+/* Formularios */
+
+form {
+    display: block;
+    background-color: rgb(154, 154, 255);
+    border-radius: 15px;
+    width: 30em;
+    padding: 0.5em;
+    margin: 3em;
+}
+
+form > h2 {
+    text-align: center;
+}
+
+span{
+    width: 100%;
+    display: flex;
+    justify-content:space-evenly;
+}
+
+span > label {
+    display: inline-block;
+    width: 10em;
+    padding: .5em;
+    margin: .5em;
+}
+
+span > input {
+    width: 75%;
+    padding: .5em;
+    margin: .5em;
+    border-radius: 15px;
+    border: none;
+}
+
+span > input[type="submit"] , span > input[type="reset"] {
+    margin-top: 1em;
+    width: 25%;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0;
+}

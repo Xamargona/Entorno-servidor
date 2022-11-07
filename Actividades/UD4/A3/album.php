@@ -12,10 +12,17 @@
 </head>
 <body>
     <?php
-        // Realizamos una consulta a la base de datos para obtener los datos de los jugadores y lo mostramos en formato tabla para una mejor visualización
+        // Creamos una conexión a la base de datos en canciones seleccionando en función del código recibido
         $resultado = $conexion->query('SELECT * FROM canciones WHERE album = '.$_GET['codigo']);
-        // Mostremos los datos de los grupos en una tabla
-
+        // Mostremos los datos de los grupos en una lista
+        echo '<table>';
+        while ($album = $resultado->fetch()) {
+            echo '<li>';
+            echo '<a href="album.php?codigo='.$album['codigo'].'">'.$album['titulo'].'</a>';
+            echo ': '.$album['anyo'].' '. $album['formato'].' '.$album['fechacompra'].' '.$album['precio'];
+            echo '</li>';
+        }
+        echo '</table>';
     ?>
 </body>
 </html>
