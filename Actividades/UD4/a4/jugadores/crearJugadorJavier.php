@@ -101,11 +101,7 @@
             <form action="#" method="post" enctype="multipart/form-data">
                 <label for="nick">Nick:</label><br>
                 <input type="text" name="nick" id="nick" placeholder="Nick" value="<?=$_POST['nick']??""?>"><br>
-                <?php
-                    if (isset($error['nick'])) {
-                        echo $error['nick'];
-                    }
-                ?>
+                <?php if (isset($error['nick'])) echo $error['nick'];?>
                 <label for="mail">Mail:</label><br>
                 <input type="text" name="mail" id="mail" placeholder="Mail" value="<?=$_POST['mail']??""?>"><br>
                 <?php

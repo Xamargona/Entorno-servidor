@@ -63,4 +63,17 @@ input[type="submit"] ,input[type="reset"] {
     border: none;
     background-color: rgb(255, 255, 255);
     border-radius: 0;
+    padding: 0.5em;
+}
+
+input[type="submit"]:hover ,input[type="reset"]:hover {
+    background-color: rgb(128, 128, 128);
+    color: white;
+    transition-duration: .3s;
+}
+
+
+p {
+    color: rgb(163, 0, 0);
+    padding-left: 13em;
 }
