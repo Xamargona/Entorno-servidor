@@ -9,33 +9,33 @@
         // Nombre
         if (empty($_POST['nombre'])) {
             $errores = true;
-            $error['nombre'] = '<p>El campo nombre está vacío</p>';
+            $error['nombre'] = '<p id="error">El campo nombre está vacío</p>';
         } elseif (!preg_match('/^[a-zA-ZñÑ\s]{1,50}$/',$_POST['nombre'])) {
-            $error['nombre'] = '<p>El nombre introducido no es válido.</p>';
+            $error['nombre'] = '<p id="error">El nombre introducido no es válido.</p>';
             $errores = true;
         }
         // Genero
         if (empty($_POST['genero'])) {
             $errores = true;
-            $error['genero'] = '<p>El campo género está vacío</p>';
+            $error['genero'] = '<p id="error">El campo género está vacío</p>';
         } elseif (!preg_match('/^[a-zA-ZñÑ\s]{1,20}$/',$_POST['genero'])) {
-            $error['genero'] = '<p>El género introducido no es válido.</p>';
+            $error['genero'] = '<p id="error">El género introducido no es válido.</p>';
             $errores = true;
         }
         // País
         if (empty($_POST['pais'])) {
             $errores = true;
-            $error['pais'] = '<p>El campo país está vacío</p>';
+            $error['pais'] = '<p id="error">El campo país está vacío</p>';
         } elseif (!preg_match('/^[a-zA-ZñÑ\s]{1,20}$/',$_POST['pais'])) {
-            $error['pais'] = '<p>El país introducido no es válido.</p>';
+            $error['pais'] = '<p id="error">El país introducido no es válido.</p>';
             $errores = true;
         }
         // Inicio
         if (empty($_POST['inicio'])) {
             $errores = true;
-            $error['inicio'] = '<p>El campo inicio está vacío</p>';
+            $error['inicio'] = '<p id="error">El campo inicio está vacío</p>';
         } elseif (!preg_match('/^[0-9]{1,11}/',$_POST['inicio'])) {
-            $error['inicio'] = '<p>La fecha de inicio introducida no es válida.</p>';
+            $error['inicio'] = '<p id="error">La fecha de inicio introducida no es válida.</p>';
             $errores = true;
         }
     }
@@ -65,7 +65,6 @@
                     if ($_GET['opcion'] === 'eliminarDefinitivamente') {
                         // Conecta a la base de datos
                         require 'includes/dsn.inc.php';
-                        var_dump($_GET['codigo']);
                         // Preparamos la consulta para posteriormente eliminar el grupo
                         $consulta = $conexion->prepare('DELETE FROM grupos WHERE codigo = '.($_GET['codigo']).';');
                         $consulta->execute();
@@ -116,10 +115,11 @@
             ?>
             <div class="alineado">
                 <div class="contenedor_aviso">
-                <input type="hidden" name="codigo" value="<?$grupo['codigo']?>">
-                <h3 id="warning">¿Estás seguro de que quieres eliminar el grupo <?=$grupo['nombre']?>?</h3>
-                <a href="index.php?codigo=<?=$grupo['codigo']?>&accion=borrar&opcion=eliminarDefinitivamente">Eliminar</a>
-                <a href="index.php?codigo=<?=$grupo['codigo']?>&accion=borrar&opcion=cancelar">Cancelar</a>
+                    <input type="hidden" name="codigo" value="<?$grupo['codigo']?>">
+                    <h3 id="warning">¿Estás seguro de que quieres eliminar el grupo <?=$grupo['nombre']?>?</h3>
+                    <a href="index.php?codigo=<?=$grupo['codigo']?>&accion=borrar&opcion=eliminarDefinitivamente">Eliminar</a>
+                    <a href="index.php?codigo=<?=$grupo['codigo']?>&accion=borrar&opcion=cancelar">Cancelar</a>
+                </div>
             </div>
             <?php
         }
@@ -136,9 +136,10 @@
             require 'includes/dsn.inc.php';
             $resultado = $conexion->query('SELECT * FROM grupos');
             // Se muestran los datos de los grupos 
+            // Mandamos el codigo del grupo mediante codigogrupo
             while ($grupo = $resultado->fetch()) {
                 echo '<li>';
-                    echo '<a id="grupos" href="grupo.php?codigo='.$grupo['codigo'].'">'.$grupo['nombre'].'</a>';
+                    echo '<a id="grupos" href="grupo.php?codigogrupo='.$grupo['codigo'].'">'.$grupo['nombre'].'</a>';
                     echo '<a href="index.php?codigo='.$grupo['codigo'].'&accion=editar"><img src="imagenes/lapiz.png" alt="editar"></a>';
                     echo '<a href="index.php?codigo='.$grupo['codigo'].'&accion=borrar"><img src="imagenes/papelera.png" alt="borrar"></a>';
                 echo '</li>';
@@ -197,12 +198,14 @@
                 if ($formulario == 'editar') {
                     echo '<input type="hidden" name="codigo" value="'.($grupo['codigo']).'">';
                     echo '<input type="submit" name="confirmar" value="Confirmar">';
-                    echo '<input type="reset" name="cancelar" value="Cancelar">';
+                    echo '<a href="index.php" class="inputamongus">Cancelar</a>';
                 } else {
                     echo '<input type="submit" name="añadir" value="Añadir">';
                 }
             ?>
             </span>
+        </form>
+        <br>
         <?php
         }
         ?>

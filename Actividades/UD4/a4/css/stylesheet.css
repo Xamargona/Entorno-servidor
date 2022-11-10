@@ -65,7 +65,7 @@ img {
 
 li > div {
     display: inline-block;
-    width: 15em;
+    width: 18em;
 }
 
 li {
@@ -90,7 +90,7 @@ li::before {
 li:hover {
     transform: translateY(-.5em);
     box-shadow: -.15em .4em rgb(255, 154, 171);
-    transition: .3s;
+    transition: .2s;
 }
 
 li > a {
@@ -147,6 +147,44 @@ span > input:focus{
     border: 2px solid rgb(255, 154, 171);
 }
 
+
+/* Input submit && cancel */
+
+input[type="submit"], .inputamongus {
+    text-decoration: none;
+    color: black;
+    border: 2px solid rgb(152, 255, 229);
+    border-radius: 0;
+
+    height: 2.1em;
+    width: 10em;
+    
+    text-align: center;
+    box-sizing: border-box;
+    display: block;
+    font-family:   'Roboto', sans-serif;
+    font-size: .9em;
+
+    margin: 1em;
+    padding: 0;
+
+    background-color: rgb(255, 255, 255);
+}
+
+input[type="submit"]:hover, .inputamongus:hover {
+    background-color: rgb(152, 255, 229);
+    color: rgb(255, 154, 171);
+    border: 2px solid rgb(255, 154, 171);
+    transition-duration: .3s;
+}
+
+.inputamongus {
+    padding-top: .25em;
+}
+
+
+/*
+
 input[type="submit"] ,input[type="reset"] {
     margin-top: 1em;
     width: 25%;
@@ -158,15 +196,13 @@ input[type="submit"] ,input[type="reset"] {
 }
 
 input[type="submit"]:hover ,input[type="reset"]:hover {
-    background-color: rgb(152, 255, 229);
-    color: rgb(255, 154, 171);
-    border: 2px solid rgb(255, 154, 171);
-    transition-duration: .3s;
-}
 
-span > p {
-    color: rgb(163, 0, 0);
+}
+*/
+#error {
+    color: red;
     padding-left: 13em;
+    font-weight: bold;
 }
 
 /* Apartado de watrning: eliminar elementos */
