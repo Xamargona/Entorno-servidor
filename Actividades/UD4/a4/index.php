@@ -62,25 +62,19 @@
             $formulario = 'eliminar';
                 // Confirmamos borrado con segunda variable
                 if (isset($_GET['opcion'])){
-                    if ($_GET['opcion'] == 'eliminarDefinitivamente') {
+                    if ($_GET['opcion'] === 'eliminarDefinitivamente') {
                         // Conecta a la base de datos
                         require 'includes/dsn.inc.php';
+                        var_dump($_GET['codigo']);
                         // Preparamos la consulta para posteriormente eliminar el grupo
                         $consulta = $conexion->prepare('DELETE FROM grupos WHERE codigo = '.($_GET['codigo']).';');
                         $consulta->execute();
                         unset($conexion);
                         header('Location: index.php');
-                    } else{
+                    } else {
                         header('Location: index.php');
                     }
                 }
-                // Conecta a la base de datos
-                require 'includes/dsn.inc.php';
-                // Preparamos la consulta para posteriormente eliminar el grupo
-                $consulta = $conexion->prepare('DELETE FROM grupos WHERE codigo = '.($_GET['codigo']).';');
-                $consulta->execute();
-                unset($conexion);
-                header('Location: index.php');
         }
     } else {
         $formulario = 'crear';
@@ -109,9 +103,10 @@
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
-    <!--Hacer cabecera-->
-    <h1>Discografía</h1>
+
     <?php
+        include 'includes/header.inc.php';
+        // Comprobamos si el usuario esta eliminando un grupo y si es asi mostramos un mensaje de confirmación
         if ($formulario == 'eliminar') {
             require 'includes/dsn.inc.php';
             $resultado = $conexion->query('SELECT * FROM grupos WHERE codigo = '.$_GET['codigo']);
@@ -119,24 +114,31 @@
             unset($conexion);
             unset($resultado);
             ?>
-            <form action="index.php?accion=borrar" method="post">
+            <div class="alineado">
+                <div class="contenedor_aviso">
                 <input type="hidden" name="codigo" value="<?$grupo['codigo']?>">
-                <p>¿Estás seguro de que quieres eliminar el grupo <?$grupo['nombre']?>?</p>
-                <a href="index.php?codigo=<?$grupo['codigo']?>&accion=borrar&opcion=eliminarDefinitivamente"><img src="imagenes/lapiz.png" alt="editar"></a>;
-                <a href="index.php?codigo=<?$grupo['codigo']?>&accion=borrar&opcion=cancelar"><img src="imagenes/lapiz.png" alt="editar"></a>;
-            </form>
+                <h3 id="warning">¿Estás seguro de que quieres eliminar el grupo <?=$grupo['nombre']?>?</h3>
+                <a href="index.php?codigo=<?=$grupo['codigo']?>&accion=borrar&opcion=eliminarDefinitivamente">Eliminar</a>
+                <a href="index.php?codigo=<?=$grupo['codigo']?>&accion=borrar&opcion=cancelar">Cancelar</a>
+            </div>
             <?php
         }
     ?>
-    <h2>Grupos:</h2>
+    <!-- Título de la sección -->
+    <div id="caja_titulo">
+        <img src="imagenes/disco.png" alt="disco">
+        <h2 class="titulo_seccion">Grupos</h2>
+    </div>
+
     <ol>
         <?php
+            // Lista con cada grupo
             require 'includes/dsn.inc.php';
             $resultado = $conexion->query('SELECT * FROM grupos');
             // Se muestran los datos de los grupos 
             while ($grupo = $resultado->fetch()) {
                 echo '<li>';
-                    echo '<a href="grupo.php?codigo='.$grupo['codigo'].'">'.$grupo['nombre'].'</a>';
+                    echo '<a id="grupos" href="grupo.php?codigo='.$grupo['codigo'].'">'.$grupo['nombre'].'</a>';
                     echo '<a href="index.php?codigo='.$grupo['codigo'].'&accion=editar"><img src="imagenes/lapiz.png" alt="editar"></a>';
                     echo '<a href="index.php?codigo='.$grupo['codigo'].'&accion=borrar"><img src="imagenes/papelera.png" alt="borrar"></a>';
                 echo '</li>';
@@ -171,22 +173,22 @@
         if ($formulario != 'eliminar') {
         ?>
             <span>      
-                <label for="nombre">Nombre:</label>
+                <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" placeholder="Nombre del grupo" id="nombre" value="<?=$_POST['nombre']??""?>"><br>
             </span>
             <?php if (isset($error['nombre'])) echo $error['nombre'];?>
             <span>
-                <label for="genero">Género:</label>
+                <label for="genero">Género</label>
                 <input type="text" name="genero" placeholder="Género" id="genero" value="<?=$_POST['genero']??""?>"><br>
             </span>
             <?php if (isset($error['genero'])) echo $error['genero'];?>
             <span>
-                <label for="pais">País:</label>
+                <label for="pais">País</label>
                 <input type="text" name="pais" placeholder="País" id="pais" value="<?=$_POST['pais']??""?>"><br>
             </span>
             <?php if (isset($error['pais'])) echo $error['pais'];?>
             <span>
-                <label for="inicio">Año de inicio:</label>
+                <label for="inicio">Año de inicio</label>
                 <input type="number" name="inicio" placeholder="Año de inicio" id="inicio" value="<?=$_POST['inicio']??""?>"><br>
             </span>
             <?php if (isset($error['inicio'])) echo $error['inicio'];?>
