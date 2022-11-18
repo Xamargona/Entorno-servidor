@@ -47,22 +47,25 @@
         // si el email existe mostramos error
         $resultado = $conexion->query('SELECT * FROM usuarios WHERE email = "'.$_POST['email'].'"');
         $usuarios = $resultado->fetch();
-        // si no hay errores hacemos el insert y redirigimos
         if ($usuarios) {
             $error['email'] = '<p id="error">El email introducido ya existe.</p>';
             $errores = true;
         }
         // si no existe el usuario y el email, insertar en la base de datos
         if (!$errores) {
-            $consulta = $conexion->prepare('INSERT INTO usuarios (usuario, contrasenya, email, rol) VALUES (?, ?, ?, ?)');
+            $consulta = $conexion->prepare('INSERT INTO usuarios (usuario, contrasenya, email, rol, token) VALUES (?, ?, ?, ?, ?)');
             $consulta->bindParam(1, $_POST['usuario']);
             $contrasenyaEncriptada = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
             $consulta->bindParam(2, $contrasenyaEncriptada);
             $consulta->bindParam(3, $_POST['email']);
             $rol = 'cliente';
             $consulta->bindParam(4, $rol);
+            $token = '';
+            $consulta->bindParam(5, $token);
             $consulta->execute();
-            header('Location: index.php');
+            unset($conexion);
+            unset($resultado);
+            header('Location: login.php');
         }
         unset($conexion);
         unset($resultado);

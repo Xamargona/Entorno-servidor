@@ -15,25 +15,24 @@
 <body>
     <?php
         include_once 'includes/header.inc.php';
-    ?>
-    <nav>
-        <a href="index.php">Principal</a>
-        <a href="carrito.php">
-            <img src="img/carrito.png" alt="carrito">[ <?= count($_SESSION['carrito']) ?> ]
-        </a>
-    </nav>
-    <?php
+
         // Muestra de objetos del carrito
         include 'includes/dsn.inc.php';
         $precio = 0;
         foreach ($_SESSION['carrito'] as $producto => $cantidad) {
             $resultado = $conexion->query('SELECT * FROM productos WHERE codigo = '.$producto);
             $productos = $resultado->fetch();
+            $precioproducto = 0;
+            $precioproducto = $productos['precio'];
+            if ($productos['oferta'] != 0) {
+                $precioproducto = $productos['precio']-($productos['precio']/100*$productos['oferta']);
+                $precioproducto = round($precioproducto, 2);
+            }
             echo '<div id="carritoproducto">
                     <img id="imgcesta" src="img/'.$productos['imagen'].'" alt="'.$productos['nombre'].'">
-                    <p>'.$productos['nombre'].' - '.$cantidad['cantidad'].' unidades: '.$productos['precio'].'€/unidad</p>
+                    <p>'.$productos['nombre'].' - '.$cantidad['cantidad'].' unidades: '.$precioproducto.'€/unidad</p>
                 </div>';
-            $precio += ($productos['precio'] * $cantidad['cantidad']);
+            $precio += ($precioproducto * $cantidad['cantidad']);
         }
         echo '<p>Precio total: '.$precio.'€</p>';
         unset($conexion);

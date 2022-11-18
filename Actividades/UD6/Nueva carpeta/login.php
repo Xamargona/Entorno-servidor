@@ -9,6 +9,7 @@
     session_start();
 
     $errores = true;
+    $error = false;
     if (!empty($_POST)) {
         $errores = false;
         foreach ($_POST as $campo => $info) {
@@ -30,56 +31,67 @@
             $error = true;
             $errores = true;
         }
-        // Email
-        if (empty($_POST['email'])) {
-            $errores = true;
-            $error = true;
-            // Formato email alfanumerico + @alfanumerico + . 3 caracteres
-        } elseif (!preg_match('/^[a-z_.0-9]+@[a-z]+.[a-z]{2,3}/',$_POST['email'])) {
-            $error = true;
-            $errores = true;
-        }
     }
     if (!$errores) {
         include_once 'includes/dsn.inc.php';
         // Verificamos si el usuario o mail existe
-        $resultado = $conexion->query('SELECT * FROM usuarios WHERE usuario = "'.$_POST['usuario'].'"');
+        $resultado = $conexion->prepare('SELECT * FROM usuarios WHERE usuario = :usuario');
+        $resultado->bindParam(':usuario', $_POST['usuario']);
+        $resultado->execute();
         $usuarios = $resultado->fetch();
-        $resultado = $conexion->query('SELECT * FROM usuarios WHERE email = "'.$_POST['usuario'].'"');
-        $emails = $resultado->fetch();
-        if ($usuarios || $emails) {
-            // Comprobamos que la contraseña sea correcta
-            if ($usuarios) {
-                $resultado = $conexion->query('SELECT contrasenya FROM usuarios WHERE usuario = "'.$_POST['usuario'].'"');
-            } elseif ($emails) {
-                $resultado = $conexion->query('SELECT contrasenya FROM usuarios WHERE email = "'.$_POST['usuario'].'"');
+        if ($usuarios) {
+            $aux = true;
+        } else {
+            $aux = false;
+            $resultado = $conexion->prepare('SELECT * FROM usuarios WHERE email = :email');
+            $resultado->bindParam(':email', $_POST['usuario']);
+            $resultado->execute();
+            $emails = $resultado->fetch();
+            if ($emails) {
+                $aux = true;
             }
+        }
+        if ($aux) {
+            // Comprobamos que la contraseña sea correcta
+            $resultado = $conexion->prepare('SELECT contrasenya FROM usuarios WHERE usuario = :usuario OR email = :email');
+            $resultado->bindParam(':usuario', $_POST['usuario']);
+            $resultado->bindParam(':email', $_POST['usuario']);
+            $resultado->execute();
             $contrasenya = $resultado->fetch();
-            $contrasenyaEncriptada = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
-            if (password_verify($contrasenyaEncriptada, $contrasenya)) {
+            $contrasenyaBBDD = $contrasenya['contrasenya'];
+            if (password_verify($_POST['contrasena'], $contrasenyaBBDD)) {
                 // Guardamos la información en la sesión y creamos el token
                 if ($usuarios) {
-                    $resultado = $conexion->query('SELECT * FROM usuarios WHERE usuario = "'.$_POST['usuario'].'"');
+                    $resultado = $conexion->prepare('SELECT * FROM usuarios WHERE usuario = :usuario');
+                    $resultado->bindParam(':usuario', $_POST['usuario']);
+                    $resultado->execute();
                 } elseif ($emails) {
-                    $resultado = $conexion->query('SELECT * FROM usuarios WHERE email = "'.$_POST['usuario'].'"');
+                    $resultado = $conexion->query('SELECT * FROM usuarios WHERE email = :email');
+                    $resultado->bindParam(':email', $_POST['usuario']);
+                    $resultado->execute();
                 }
                 $datos = $resultado->fetch();
                 $_SESSION['usuario'] = $datos['usuario'];
                 $_SESSION['rol'] = $datos['rol'];
                 // Creamos y guardamos el token
-                if ($_POST['recordar']) {
+                if ($_POST['recordar'] == 'on') {
                     $token = bin2hex(random_bytes(90));
                     setcookie('token', $token, time() + 60 * 60 * 24 * 365);
-                    $conexion->query('UPDATE usuarios SET token = $token WHERE usuario ="'.$datos["usuario"].'"');
+                    // update del token en la base de datos
+                    $update = $conexion->prepare('UPDATE usuarios SET token = :token WHERE usuario = :usuario OR email = :email');
+                    $update->bindParam(':token', $token);
+                    $update->bindParam(':usuario', $_POST['usuario']);
+                    $update->bindParam(':email', $_POST['usuario']);
+                    $update->execute();
                 }
+                unset($conexion);
+                unset($resultado);
                 header('Location: index.php');
             }
         } else {
             $errores = true;
             $error = true;
         }
-
-        // si no existe el usuario y el email, insertaren la base de datos
         unset($conexion);
         unset($resultado);
     }
@@ -91,10 +103,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Javier Martínez González</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+    <?php
+        include_once 'includes/header.inc.php';
+    ?>
 <body>
-    // crea un formulario de login
-    <form action="login.php" method="post">
+    <form action="login.php" method="post" id="login">
+        <h2>Formulario de Login</h2>   
         <label for="usuario">Usuario</label>
         <input type="text" name="usuario" id="usuario">
         <label for="contrasena">Contraseña</label>

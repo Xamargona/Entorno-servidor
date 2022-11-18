@@ -2,7 +2,7 @@
     // Creamos la sesión
     ini_set('session.cache_expire', 10);
     session_start();
-
+    
     // Comprobamos si el usuario está logueado
     if (isset($_SESSION['usuario'])) {
         // Creamos una variable en la sesión que representará el carrito
