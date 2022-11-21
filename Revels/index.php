@@ -71,8 +71,6 @@
                 if ($resultado) {
                     $error['email'] = '<p id="error">El email introducido ya existe.</p>';
                 }
-                unset($consulta);
-                unset($conexion);
             }
 
             // En caso de que todos los datos sean correctos conectamos con la base de datos y registramos al usuario
@@ -86,21 +84,22 @@
                 // Enriptamos la contraseña e inicializamos el token commo null
                 $contrasenaEncriptada = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
                 //Insertamos los datos en la base de datos
-                $consulta = $conexion->prepare('INSERT INTO users (usuario, email, contrasenya) VALUES (:usuario, :email, :contrasenya)');
-                $consulta->bindParam(':usuario', $_POST['usuario']);
-                $consulta->bindParam(':email', $_POST['email']);
-                $consulta->bindParam(':contrasenya', $contrasenaEncriptada);
+                $consulta = $conexion->prepare('INSERT INTO users (usuario, contrasenya, email) VALUES (?, ?, ?)');
+                $consulta->bindParam(1, $_POST['usuario']);
+                $consulta->bindParam(2, $contrasenaEncriptada);
+                $consulta->bindParam(3, $_POST['email']);
                 $consulta->execute();
-                unset($consulta);
-                unset($conexion);
 
                 // Creamos la sesión del usuario
                 $_SESSION['user'] = $_POST['usuario'];
                 $_SESSION['id'] = $conexion->lastInsertId();
-
+                unset($conexion);
+                unset($consulta);
                 // Redirigimos a la página principal
                 header('Location: index.php');
             }
+            unset($conexion);
+            unset($consulta);
         }
     }
 ?>
@@ -119,7 +118,10 @@
         if (isset($_SESSION['user'])) {
             // Si existe el usuario, mostramos el feed o el formulario de nuevo revel
             ?>
-                skereee
+                <aside>
+
+                </aside>
+                
             <?php
         } else {
             // Si no existe el usuario, mostramos el formulario de registro
@@ -146,7 +148,5 @@
             <?php
         }
     ?>
-
-
 </body>
 </html>
