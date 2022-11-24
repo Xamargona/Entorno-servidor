@@ -17,11 +17,12 @@
             <a href="index.php"><h1>Revels</h1></a>
             <a href="new.php">Nuevo Revel</a>
             <a href="account.php">Mi cuenta</a>
-            <a href="close.php">Cerrar sesión</a>
+            <a href="logout.php">Cerrar sesión</a>
             <form action="results.php" method="GET">
                 <input type="text" name="search" id="search" placeholder="Buscar">
                 <input type="submit" value="Buscar">
             </form>
+            <p><?=$_SESSION['user']?></p>
         </header>
         <?php   
     } else {

@@ -1,6 +1,4 @@
 <?php
-// DUDAS: El user ha de ser diferenciado por mayus y minus??
-// He de mostrar que el usuario esta ya registrado si falla en otro campo?
     /*
         Tres estilos de página principal:
         USUARIOS NO REGISTRADOS
@@ -11,9 +9,8 @@
         - Se muestra un mensaje y un formulario para añadir un revel que enviará la información a 'new.php'
     */
 
-    // Iniciamos la sesión y comporbamos si existe el user o el token
+    // Iniciamos la sesión y comporbamos si existe el user
     session_start();
-
     // Comprobamos si existe el usuario, en caso de que no exista, establecemos la verificación de errores del formulario de registro
     if (!isset($_SESSION['user'])) {
 
@@ -117,12 +114,85 @@
         include 'includes/header.inc.php';
         if (isset($_SESSION['user'])) {
             // Si existe el usuario, mostramos el feed o el formulario de nuevo revel
-            ?>
-                <aside>
+            include_once 'includes/dsn.inc.php';
+            $consulta = $conexion->prepare('SELECT * FROM follows WHERE userid = :userid');
+            $consulta->bindParam(':userid', $_SESSION['id']);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            echo '<aside>';
+            echo '<h2>Seguidos</h2>';
+            echo '<ul>';
+            // Mostramos los seguidos
+            foreach ($resultado as $user) {
+                // Por cada resultado obtenemos sacamos el id del user followed
+                $consulta = $conexion->prepare('SELECT usuario FROM users WHERE id = :userid');
+                $consulta->bindParam(':userid', $user['userfollowed']);
+                $consulta->execute();
+                $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+                echo '<li>'.$resultado['usuario'].'</li>';
+            }
+            // si no se sigue a nadie lo indicamos
+            if (empty($resultado)) {
+                echo '<li>Todavía no sigues a nadie</li>';
+            }
+            echo  '</aside>';
+            // Mostramos el feed
+            echo '<section>';
+            echo '<h2>Feed</h2>';
+            echo '<ul>';    
+            // Seleccionamos la id de los usuarios que seguimos
+            $consulta = $conexion->prepare('SELECT * FROM follows WHERE userid = :userid');
+            $consulta->bindParam(':userid', $_SESSION['id']);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            // Array con los id revels de los usuarios seguidos qe iremos rellenando
+            $revelsid = array();
+            // Por cada usuario seguido sacamos sus revels
+            foreach ($resultado as $user) {
+                $consulta = $conexion->prepare('SELECT id FROM revels WHERE userid = :userid');
+                $consulta->bindParam(':userid', $user['userfollowed']);
+                $consulta->execute();
+                $publicaciones = $consulta->fetchAll(PDO::FETCH_ASSOC);
+                // Por cada revel lo añadimos al array de revels
+                foreach ($publicaciones as $publicacion) {
+                    array_push($revelsid, $publicacion);
+                }
+            }
+            // Añadimos también los revels del usuario
+            $consulta = $conexion->prepare('SELECT id FROM revels WHERE userid = :userid');
+            $consulta->bindParam(':userid', $_SESSION['id']);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($resultado as $revel) {
+                array_push($revelsid, $revel);
+            }
+            // comprobamos si hay revels
+            if (empty($revelsid)) {
+                // AQUI AÑADIMOS FORMULARIO PARA REVELS O LO INDICAMOS
+                echo '<p>Todavía no has revelado nada</p>';
+            } else {
+                // Si hay revels los ordenamos y los mostramos
+                rsort($revelsid);
+                foreach ($revelsid as $id) {
+                    // Sacamos los datos del revel
+                    $consulta = $conexion->prepare('SELECT * FROM revels WHERE id = :id');
+                    $consulta->bindParam(':id', $id['id']);
+                    $consulta->execute();
+                    $inforevel = $consulta->fetch(PDO::FETCH_ASSOC);
+                    // Sacamos el usuario del revel
+                    $consulta = $conexion->prepare('SELECT usuario FROM users WHERE id = :userid');
+                    $consulta->bindParam(':userid', $inforevel['userid']);
+                    $consulta->execute();
+                    $infouser = $consulta->fetch(PDO::FETCH_ASSOC);
+                    echo '<div class="revel">';
+                    echo '<h2>@'.$infouser['usuario'].'</h2>';
+                    echo '<p>'.$inforevel['texto'].'</p>';
+                    echo '</div>';
+                }
+            }
+            echo '</ul>';
+            echo '</section>';
 
-                </aside>
-                
-            <?php
         } else {
             // Si no existe el usuario, mostramos el formulario de registro
             ?>
