@@ -27,7 +27,7 @@
             // Nombre de usuario
             if (empty($_POST['usuario'])) {
                 $error['usuario'] = '<p id="error">El campo usuario está vacío</p>';
-            } elseif (!preg_match('/^[0-9a-zA-ZñÑ\s]{1,20}$/',$_POST['usuario'])) {
+            } elseif (!preg_match('/^[0-9a-zA-ZñÑ\s]{1,20}$/', $_POST['usuario'])) {
                 $error['usuario'] = '<p id="error">El usuario introducido no es válido.</p>';
             }
 
@@ -41,7 +41,7 @@
             // Contraseña   
             if (empty($_POST['contrasena'])) {
                 $error['contrasena'] = '<p id="error">El campo contraseña está vacío</p>';
-            } elseif (!preg_match('/^[0-9a-zA-ZñÑ\s]{1,20}$/',$_POST['contrasena'])) {
+            } elseif (!preg_match('/^[0-9a-zA-ZñÑ\s]{1,20}$/', $_POST['contrasena'])) {
                 $error['contrasena'] = '<p id="error">La contraseña introducida no es válida.</p>';
             }
 
@@ -78,7 +78,7 @@
 
                 // Creamos el usuario
 
-                // Enriptamos la contraseña e inicializamos el token commo null
+                // Enriptamos la contraseña
                 $contrasenaEncriptada = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
                 //Insertamos los datos en la base de datos
                 $consulta = $conexion->prepare('INSERT INTO users (usuario, contrasenya, email) VALUES (?, ?, ?)');
@@ -119,7 +119,7 @@
             $consulta->bindParam(':userid', $_SESSION['id']);
             $consulta->execute();
             $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-            echo '<aside>';
+            echo '<aside class="seguidos">';
             echo '<h2>Seguidos</h2>';
             echo '<ul>';
             // Mostramos los seguidos
@@ -137,62 +137,35 @@
             }
             echo  '</aside>';
             // Mostramos el feed
-            echo '<section>';
+            echo '<section class="main">';
             echo '<h2>Feed</h2>';
             echo '<ul>';    
-            // Seleccionamos la id de los usuarios que seguimos
-            $consulta = $conexion->prepare('SELECT * FROM follows WHERE userid = :userid');
+
+            // Seleccionamos los revels de los usuarios seguidos y del propio usuario ordenados por fecha
+            $consulta = $conexion->prepare('SELECT * FROM revels WHERE userid IN (SELECT userfollowed FROM follows WHERE userid = :userid) OR userid = :id ORDER BY fecha DESC');
             $consulta->bindParam(':userid', $_SESSION['id']);
+            $consulta->bindParam(':id', $_SESSION['id']);
             $consulta->execute();
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-            // Array con los id revels de los usuarios seguidos qe iremos rellenando
-            $revelsid = array();
-            // Por cada usuario seguido sacamos sus revels
-            foreach ($resultado as $user) {
-                $consulta = $conexion->prepare('SELECT id FROM revels WHERE userid = :userid');
-                $consulta->bindParam(':userid', $user['userfollowed']);
+            $revels = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            // Mostramos los revels
+            foreach ($revels as $revel) {
+                // Por cada resultado obtenemos sacamos el nombre de usuario
+                $consulta = $conexion->prepare('SELECT usuario FROM users WHERE id = :userid');
+                $consulta->bindParam(':userid', $revel['userid']);
                 $consulta->execute();
-                $publicaciones = $consulta->fetchAll(PDO::FETCH_ASSOC);
-                // Por cada revel lo añadimos al array de revels
-                foreach ($publicaciones as $publicacion) {
-                    array_push($revelsid, $publicacion);
-                }
-            }
-            // Añadimos también los revels del usuario
-            $consulta = $conexion->prepare('SELECT id FROM revels WHERE userid = :userid');
-            $consulta->bindParam(':userid', $_SESSION['id']);
-            $consulta->execute();
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($resultado as $revel) {
-                array_push($revelsid, $revel);
-            }
-            // comprobamos si hay revels
-            if (empty($revelsid)) {
-                // AQUI AÑADIMOS FORMULARIO PARA REVELS O LO INDICAMOS
-                echo '<p>Todavía no has revelado nada</p>';
-            } else {
-                // Si hay revels los ordenamos y los mostramos
-                rsort($revelsid);
-                foreach ($revelsid as $id) {
-                    // Sacamos los datos del revel
-                    $consulta = $conexion->prepare('SELECT * FROM revels WHERE id = :id');
-                    $consulta->bindParam(':id', $id['id']);
-                    $consulta->execute();
-                    $inforevel = $consulta->fetch(PDO::FETCH_ASSOC);
-                    // Sacamos el usuario del revel
-                    $consulta = $conexion->prepare('SELECT usuario FROM users WHERE id = :userid');
-                    $consulta->bindParam(':userid', $inforevel['userid']);
-                    $consulta->execute();
-                    $infouser = $consulta->fetch(PDO::FETCH_ASSOC);
-                    echo '<div class="revel">';
-                    echo '<h2>@'.$infouser['usuario'].'</h2>';
-                    echo '<p>'.$inforevel['texto'].'</p>';
-                    echo '</div>';
-                }
+                $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+                // Sacamos la cantidad de comentarios del revel
+                $consulta = $conexion->prepare('SELECT COUNT(*) FROM comments WHERE revelid = :revelid');
+                $consulta->bindParam(':revelid', $revel['id']);
+                $consulta->execute();
+                $comentarios = $consulta->fetch(PDO::FETCH_ASSOC);
+                // Mostramos la cantidad de comentarios
+                echo '<li><a href="revel.php?revelid='.$revel['id'].'">'.$resultado['usuario'].'<p>'.$revel['texto'].'</p>'.$revel['fecha'].' - '.$comentarios['COUNT(*)'].' comentarios</a></li>';
             }
             echo '</ul>';
             echo '</section>';
-
+            unset($conexion);
+            unset($consulta);
         } else {
             // Si no existe el usuario, mostramos el formulario de registro
             ?>
