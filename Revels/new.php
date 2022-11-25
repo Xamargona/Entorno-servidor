@@ -19,8 +19,6 @@
 
         if (empty($_POST['texto'])) {
             $error['texto'] = '<p id="error">¡No puedes publicar un Revel vacío!</p>';
-        } elseif (!preg_match('/^[\w\s]$/u', $_POST['texto'])) {
-            $error['texto'] = '<p id="error">Oops parece que algo ha salido mal, inténtalo de nuevo.</p>';
         } elseif (strlen($_POST['texto']) > 255) {
             $error['texto'] = '<p id="error">El Revel no puede tener más de 255 carácteres.</p>';
         }
@@ -31,10 +29,9 @@
         if (!isset($error)) {
             // Conectamos con la base de datos y creamos el revel
             include_once 'includes/dsn.inc.php';
-            $consulta = $conexion->prepare('INSERT INTO revels (userid, texto, fecha) VALUES (?, ?, ?)');
+            $consulta = $conexion->prepare('INSERT INTO revels (userid, texto) VALUES (?, ?)');
             $consulta->bindParam(1, $_SESSION['id']);
             $consulta->bindParam(2, $_POST['texto']);
-            $consulta->bindParam(3, date('Y-m-d H:i:s'));
             $consulta->execute();
             $revelid = $conexion->lastInsertId();
             unset($conexion);
@@ -53,17 +50,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Revel Page - Javier Martínez González</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <?php
         include_once 'includes/header.inc.php';
     ?>
-    <form action="#" method="POST" enctype="multipart/form-data" class="formNewRevel">
-        <h3>Crea un nuevo Revel</h3>
-        <label for="texto">Escribe al mundo lo que quieres compartir</label><br>
-        <textarea name="texto" id="texto" cols="30" rows="10" placeholder="Cuéntale al mundo que está pasando con hasta 255 carácteres :)" value="<?=$_POST['texto']??""?>" required></textarea>
-        <?php if (isset($error['texto'])) { echo $error['texto']; } ?>
-        <input type="submit" value="Revelar">
-    </form>
+    <section class="newRevel">
+        <form action="#" method="POST" enctype="multipart/form-data" class="formNewRevel">
+            <h3>Crea un nuevo Revel</h3>
+            <label for="texto">Escribe al mundo lo que quieres compartir</label><br>
+            <textarea name="texto" id="texto" cols="60" rows="5" placeholder="Cuéntale al mundo que está pasando con hasta 255 carácteres :)" value="<?=$_POST['texto']??""?>" required></textarea>
+            <?php if (isset($error['texto'])) { echo $error['texto']; } ?><br>
+            <input type="submit" value="Revelar">
+        </form>
+    </section>
 </body>
 </html>

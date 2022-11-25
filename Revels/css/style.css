@@ -4,4 +4,319 @@
 
 body {
     margin: 0;
+    background-color: darkgray;
+}
+
+/* Header */
+
+header {
+    width: 100vw;
+    height: 10em;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: black;
+    color: white;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+a.logo {
+    align-self: flex-start;
+    margin: 0;
+}
+
+header img {
+    width: auto;
+    height: 9.8em;
+    border: 1px solid black;
+}
+
+header .formBusqueda {
+    margin: auto;
+    text-align: center;
+}
+
+header a {
+    text-decoration: none;
+    color: white;
+}
+
+header p, header form, header a {
+    width: auto;
+    margin: auto;
+}
+
+header form, header span, header > a {
+    width: 33%;
+}
+
+header span {
+    height: 10em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 1em;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+header span a {
+    transition-duration: .7s;
+    transition-delay: box-shadow 0.5s;
+}
+
+header span a:hover {
+    color: black;
+    border-radius: 15px;
+    padding: 1em;
+    background-color: #cfcfcf;
+    box-shadow: 0 0 10px #cfcfcf, 0 0 40px #cfcfcf, 0 0 80px #cfcfcf;
+}
+
+.headerLogin {
+    margin: auto;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 1em;
+    width: 20%;
+}
+
+.headerLogin:hover {
+    color: white;
+    box-shadow: 0 0 10px #cfcfcf, 0 0 40px #cfcfcf, 0 0 80px #cfcfcf;
+    transition-delay: 1s;
+}
+
+.formBusqueda input{
+    border-radius: 15px;
+    padding: .5em;
+}
+
+.formBusqueda input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #cfcfcf, 0 0 40px #cfcfcf, 0 0 80px #cfcfcf;
+    transition: .5s;
+}
+
+.formBusqueda input[type="submit"] {
+    background-color: black;
+    border-radius: 10px;
+    padding: .5em;
+    border: 1px solid white;
+    color: white;
+}
+
+.formBusqueda input[type="submit"]:hover {
+    background-color: white;
+    color: black;
+    transition: .5s;
+}
+
+/* Aside */
+
+.seguidos {
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    position: fixed;
+    top: 12em;
+    left: 4em;
+    padding: 3em;
+}
+
+.seguidos h2 {
+    text-align: center;
+    border-bottom: 1px solid white;
+    padding-bottom: .3em;
+    margin-top: .3em;
+}
+
+.seguidos ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.seguidos li {
+    background-color: rgb(39, 39, 39);
+    padding: 1em;
+    border: 1px solid white;
+    border-radius: 20px;
+    margin: 1em;
+    text-align: center;
+}
+
+/* Main */
+
+.main {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10em;
+    align-items: center;
+}
+
+.main h2 {
+    width: 33vw;
+    text-align: center;
+    border-bottom: 1px solid white;
+    padding-bottom: .3em;
+}
+
+.main ul {
+    width: 33vw;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main li {
+    background-color: rgb(39, 39, 39);
+    padding: 1em;
+    border: 1px solid white;
+    border-radius: 20px;
+    margin: 1em;
+    text-align: center;
+}
+
+.main li a {
+    text-decoration: none;
+    color: white;
+}
+
+/* New Revel */
+
+.newRevel {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10em;
+    align-items: center;
+}
+
+.formNewRevel, .formComments {
+    margin-top: 3em;
+    width: 600px;
+    text-align: center;
+    background-color: rgb(105, 105, 105);
+    border: 1px solid black;
+    border-radius: 45px;
+}
+
+.formNewRevel label {
+    display: inline-block;
+    padding: 1em;
+}
+
+textarea {
+    resize: none;
+    border-radius: 35px;
+    padding: 3em;
+    border: none;
+}
+
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 1px #cfcfcf, 0 0 4px #cfcfcf, 0 0 8px #cfcfcf;
+    transition: .5s;
+    border: none;
+}
+
+.formNewRevel input[type="submit"], .formComments input[type="submit"] {
+    margin: 1em;
+    background-color: white;
+    border-radius: 10px;
+    padding: .5em;
+    border: 1px solid white;
+    color: black;
+}
+
+/* Revel.php */
+
+.revel {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding-top: 12em;
+    align-items: center;
+}
+
+.cajaRevel {
+    width: 600px;
+    text-align: center;
+    background-color: rgb(105, 105, 105);
+    border: 1px solid black;
+    border-radius: 45px;
+}
+
+.cajaRevel h1 {
+    text-decoration: underline;
+}
+
+.cajaRevel a {
+    text-decoration: none;
+    color: white;
+}
+
+.formComments {
+    width: 500px;
+    position: fixed;
+    top: 12em;
+    left: 4em;
+}
+
+.cajaComentarios {
+    width: 500px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    text-align: center;
+    margin-top: 2em;
+    background-color: rgb(151, 151, 151);
+}
+
+.cajaComentarios li p + p {
+    padding-bottom: .5em;
+    border-bottom: 1px solid white;
+}
+
+.cajaComentarios li p + p{
+    margin-bottom: 0;
+}
+
+/* Results.php */
+
+.muestraUsuarios {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 12em;
+    align-items: center;
+}
+
+.muestraUsuarios div {
+    width: 300px;
+    text-align: center;
+    background-color: rgb(119, 119, 119);
+    border: 1px solid white;
+    border-radius: 45px;
+    margin: 1em;
+}
+
+.muestraUsuarios div a {
+    text-decoration: none;
+    color: white;
+}
+
+.notfound {
+    color: red;
+    padding-top: 15em;
 }
