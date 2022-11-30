@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: grey;
+}
+
+/* ----------- Nav ----------- */
+
+/* Estilos Nav */
+
+nav {
+    width: 60vw;
+    height: 4.5em;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5em;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+nav .navItem {
+    display: inline-block;
+    width: 20vw;
+    height: auto; 
+    text-align: center;
+    color: white;
+    background-color: black;
+    font-size: 1.4em;
+    text-decoration: none;
+    line-height: 3.25em;
+}
+
+.navLeft {
+    border-radius: 5em 0 0 5em;
+}
+
+.navRight {
+    border-radius: 0 5em 5em 0;
+}
+
+.navItem span {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    background: linear-gradient(270deg, transparent, red);
+    height: 2px;
+}
+
+/* Animaciones Nav */
+
+.navItem:hover span:nth-child(1) {
+    left: 100%;
+    transition: 0.5s;
+}
+
+.navItem:hover span:nth-child(2) {
+    right: 100%;
+    transition: 0.5s;
+}
+
+/* Main section */
+
+.main {
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Sección */
+
+section {
+    width: 90vw;
+    height: 70vh;
+    background-color: #8f7f7f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1em;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.opcion1 {
+    background-color: green;
+}
+
+.opcion2 {
+    background-color: blue;
+}
+
+.opcion3 {
+    background-color: red;
+}
+
+.target {
+    right: -100vw;
+    animation: move 1s ease-in-out;
+}
+
+@keyframes move {
+    0% {
+        transform: scale(1);
+        left: 0;
+    }
+    40% {
+        transform: scale(0.8);
+        left: 0;
+    }
+    100% {
+        transform: scale(0.8);
+        left: -100vw;
+    }
+}
