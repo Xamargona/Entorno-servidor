@@ -17,28 +17,32 @@ body {
 /* Estilos Nav */
 
 nav {
+    /* Posición y tamaño */
     width: 60vw;
     height: 4.5em;
-    position: fixed;
+    position: relative;
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 5em;
-
+    /* Items */
     display: flex;
     justify-content: space-around;
 }
 
 nav .navItem {
+    /* Posición y tamaño */
     display: inline-block;
     width: 20vw;
     height: auto; 
+    /* Texto */
     text-align: center;
     color: white;
-    background-color: black;
+    background-color: #1d1d27;
     font-size: 1.4em;
     text-decoration: none;
     line-height: 3.25em;
+
 }
 
 .navLeft {
@@ -49,28 +53,9 @@ nav .navItem {
     border-radius: 0 5em 5em 0;
 }
 
-.navItem span {
-    position: absolute;
-    display: block;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    background: linear-gradient(270deg, transparent, red);
-    height: 2px;
-}
-
 /* Animaciones Nav */
 
-.navItem:hover span:nth-child(1) {
-    left: 100%;
-    transition: 0.5s;
-}
 
-.navItem:hover span:nth-child(2) {
-    right: 100%;
-    transition: 0.5s;
-}
 
 /* Main section */
 
