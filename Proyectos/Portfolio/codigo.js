@@ -1,10 +1,51 @@
-// Convertimos todos los navItems en buttons
+// Designed by: Hoang Nguyen
+// Original image: https://dribbble.com/shots/5919154-Tab-Bar-Label-Micro-Interaction
 
-let btns = document.querySelectorAll(".navItem");
+const buttons = document.querySelectorAll(".menu__item");
+let activeButton = document.querySelector(".menu__item.active");
 
-btns.forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-        e.preventDefault();
-        document.getElementById("seccion1").style.visibility = "visible";
+buttons.forEach(item => {
+
+    const text = item.querySelector(".menu__text");
+    setLineWidth(text, item);
+
+    window.addEventListener("resize", () => {
+        setLineWidth(text, item);
+    })
+
+    item.addEventListener("click", function() {
+        if (this.classList.contains("active")) return;
+
+        this.classList.add("active");
+        
+        if (activeButton) {
+            activeButton.classList.remove("active");
+            activeButton.querySelector(".menu__text").classList.remove("active");
+        }
+        
+        handleTransition(this, text);
+        activeButton = this;
+
     });
-})
+
+    
+});
+
+
+function setLineWidth(text, item) {
+    const lineWidth = text.offsetWidth + "px";
+    item.style.setProperty("--lineWidth", lineWidth);
+}
+
+function handleTransition(item, text) {
+
+    item.addEventListener("transitionend", (e) => {
+
+        if (e.propertyName != "flex-grow" || 
+        !item.classList.contains("active")) return;
+
+        text.classList.add("active");
+        
+    });
+
+}
