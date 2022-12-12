@@ -21,7 +21,6 @@ $map = [
 	'buscarPorDemografia' => ['controller' =>'MangAnimeController', 'action' =>'buscarPorDemografia'],
 	'buscarCombinada' => ['controller' =>'MangAnimeController', 'action' =>'buscarCombinada'],
 	'ver' => ['controller' =>'MangAnimeController', 'action' =>'ver']
-	// TO DO: completar con todas las rutas y acciones que se necesiten
 ];
 
 // Parseo de la ruta

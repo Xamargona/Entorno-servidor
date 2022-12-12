@@ -24,17 +24,18 @@ class MangAnimeController
 					'creador' => '',
 					'genero' => '',
 					'estreno' => '',
+					'demografia' => '',
 					'fin' => '',
 					'tomos' => '',
 					'capitulos' => '',
 					'imagen' => ''];
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			// TODO: completar con la instancia del modelo MangAnime
+			// INSTANCIA DEL MODELO MANGANIME
 			$mangAnimeModel = new MangAnime(Config::$bd_nombre,
-			Config::$bd_usuario,
-			Config::$bd_clave,
-			Config::$bd_hostname);
+											Config::$bd_usuario,
+											Config::$bd_clave,
+											Config::$bd_hostname);
 			// comprobar campos formulario
 			if ($mangAnimeModel->validarDatos($_POST['nombre'],
 												$_POST['creador'],
@@ -85,35 +86,64 @@ class MangAnimeController
 			$_POST['nombre'] = isset($_GET['nombre']) ? $_GET['nombre'] : $_POST['nombre'];
 			$orden = isset($_GET['orden']) ? $_GET['orden'] : 'nombre';
 			$by = isset($_GET['by']) ? $_GET['by'] : 'DESC';
-
-			// TODO: completar con la instancia del modelo MangAnime
-
+			// INSTANCIA DEL MODELO MANGANIME
+			$mangAnimeModel = new MangAnime(Config::$bd_nombre,
+											Config::$bd_usuario,
+											Config::$bd_clave,
+											Config::$bd_hostname);
 			$params['nombre'] = $_POST['nombre'];
 			// Si se necesita pasar el orden y el tipo de orden a la vista:
-			//$params['orden'] = $orden;
-			//$params['by'] = $by;
+			$params['orden'] = $orden;
+			$params['by'] = $by;
 			// TODO: completar con la llamada al método del modelo que devuelve los manganimes que coinciden con el nombre
-			// $params['resultado'] = 
+			$params['resultado'] = $mangAnimeModel->findMangAnimesByName($params['nombre'], $params['orden'], $params['by']);  
 
 			unset($mangAnimeModel);
 		}
 		require __DIR__ . '/templates/buscarPorNombre.php';
 	}
 	
+	public function buscarPorDemografia() {
+		$params = [ 'demografia' => '',
+					'resultado' => []
+				];
+		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['demografia'])) {
+			$_POST['demografia'] = isset($_GET['demografia']) ? $_GET['demografia'] : $_POST['demografia'];
+			$orden = isset($_GET['orden']) ? $_GET['orden'] : 'demografia';
+			$by = isset($_GET['by']) ? $_GET['by'] : 'DESC';
+			// INSTANCIA DEL MODELO MANGANIME
+			$mangAnimeModel = new MangAnime(Config::$bd_nombre,
+											Config::$bd_usuario,
+											Config::$bd_clave,
+											Config::$bd_hostname);
+			$params['demografia'] = $_POST['demografia'];
+			// Si se necesita pasar el orden y el tipo de orden a la vista:
+			$params['orden'] = $orden;
+			$params['by'] = $by;
+			// TODO: completar con la llamada al método del modelo que devuelve los manganimes que coinciden con el demografia
+			$params['resultado'] = $mangAnimeModel->findMangAnimesByDemografia($params['demografia'], $params['orden'], $params['by']);  
+
+			unset($mangAnimeModel);
+		}
+		require __DIR__ . '/templates/buscarPorDemografia.php';
+	}
+
 	public function ver() {
 		if (!isset($_GET['id'])) {
 			header('location: index.php');
 			exit();
 
-			//throw new Exception('Pagina no encontrada');
+			throw new Exception('Pagina no encontrada');
 		}
 		$id = $_GET['id'];
-		
-		// TODO: completar con la instancia del modelo MangAnime
-		
-		// TODO: completar con la llamada al método del modelo que devuelve el manganime con el id pasado por parámetro
-		//$params = 
-		
+	
+		// INSTANCIA DEL MODELO MANGANIME
+		$mangAnimeModel = new MangAnime(Config::$bd_nombre,
+										Config::$bd_usuario,
+										Config::$bd_clave,
+										Config::$bd_hostname);		
+		$params['resultado'] = $mangAnimeModel->getMangAnime($id);  
 		unset($mangAnimeModel);
 		require __DIR__ . '/templates/verMangAnime.php';
 	}

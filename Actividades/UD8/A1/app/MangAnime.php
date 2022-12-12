@@ -16,8 +16,7 @@ class MangAnime {
 	}
 
 	public function getMangAnimes(){
-		// TODO: crear consulta que devuelve todos los MangAnimes ordenados por estreno descendente
-		$sql = 'SELECT * FROM manganime';
+		$sql = 'SELECT * FROM manganime ORDER BY estreno DESC';
 		$result = $this->conexion->query($sql);
 
 		return $result->fetchAll(PDO::FETCH_ASSOC);
@@ -25,11 +24,20 @@ class MangAnime {
 
 	public function findMangAnimesByName($nombre, $orden='estreno', $ascDesc='DESC'){
 		$nombre = htmlspecialchars($nombre);
-		$sql = 'SELECT * FROM manganime WHERE nombre like 1 ORDER BY';
 		// TODO: crear consulta para buscar MangAnimes por nombre en el orden y sentido indicados usando los parámetros recibidos
-		// $sql =
-		$result = $this->conexion->prepare($sql);
+			$sql = ("SELECT * FROM manganime WHERE nombre LIKE ? ORDER BY ".$orden." ".$ascDesc);
+			$result = $this->conexion->prepare($sql);
 		$result->execute(['%'.$nombre.'%']);
+	
+		return $result->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function findMangAnimesByDemografia($demografia, $orden='estreno', $ascDesc='DESC'){
+		$demografia = htmlspecialchars($demografia);
+		// TODO: crear consulta para buscar MangAnimes por demografia en el orden y sentido indicados usando los parámetros recibidos
+			$sql = ("SELECT * FROM manganime WHERE demografia LIKE ? ORDER BY ".$orden." ".$ascDesc);
+			$result = $this->conexion->prepare($sql);
+		$result->execute(['%'.$demografia.'%']);
 	
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -38,7 +46,7 @@ class MangAnime {
 		$id = htmlspecialchars($id);
 
 		// TODO: crear consulta para buscar un MangAnime por su id usando el parámetro recibido
-		//$sql = 
+		$sql = 'SELECT * FROM manganime WHERE id = ?'; 
 		$result = $this->conexion->prepare($sql);
 		$result->execute([$id]);
 
