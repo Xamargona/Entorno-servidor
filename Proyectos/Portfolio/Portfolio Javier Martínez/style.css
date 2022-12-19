@@ -126,7 +126,7 @@ section {
     margin-top: 1em;
     height: 70vh;
     position: absolute;
-    right: -500%;
+    left: -500%;
     transform: translate(-50%);
     display: flex;
     flex-direction: column;
@@ -141,7 +141,7 @@ section {
 }
 
 .activesection {
-    right: 50%;
+    left: 50%;
     transform: translate(-50%);
     transition-duration: .7s;
 }
@@ -171,7 +171,7 @@ footer > h3 {
 }
 
 #instagram:hover{
-    content:url(imagenes/insta2.png);
+    content:url(img/insta2.png);
     margin: 10px;
     width: 30px;
     height: 30px;
@@ -179,7 +179,7 @@ footer > h3 {
 }
 
 #twitter:hover{
-    content:url(imagenes/tw2.png);
+    content:url(img/tw2.png);
     margin: 10px;
     width: 30px;
     height: 30px;
@@ -187,7 +187,7 @@ footer > h3 {
 }
 
 #spotify:hover{
-    content:url(imagenes/spotify2.png);
+    content:url(img/spotify2.png);
     margin: 10px;
     width: 30px;
     height: 30px;
@@ -195,7 +195,7 @@ footer > h3 {
 }
 
 #pinterest:hover{
-    content:url(imagenes/pinterest2.png);
+    content:url(img/pinterest2.png);
     margin: 10px;
     width: 30px;
     height: 30px;
