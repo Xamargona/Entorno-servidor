@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://localhost.actividades/ud9/operaciones"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    name="Operaciones"
+    targetNamespace="http://localhost.actividades/ud9/operaciones">
+	<!-- definicion de tipos de los datos tanto de entrada como de salida -->
+	<types>
+		<xsd:schema targetNamespace="http://localhost.actividades/ud9/operaciones">
+			<xsd:element name="suma">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="numero1" type="xsd:float" />
+						<xsd:element name="numero2" type="xsd:float" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="resta">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="numero1" type="xsd:float" />
+						<xsd:element name="numero2" type="xsd:float" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="multiplicacion">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="numero1" type="xsd:float" />
+						<xsd:element name="numero2" type="xsd:float" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="division">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="numero1" type="xsd:float" />
+						<xsd:element name="numero2" type="xsd:float" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="aBinario">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="numero" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="resultado">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="resultado" type="xsd:float" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</types>
+
+	<!-- Mensajes de respuesta tantos mensajes con su tipo como posibilidades en las funciones -->
+	<message name="returns_resultado">
+		<part name="resultado" type="xsd:float" />
+	</message>
+	<!-- Mensajes de entrada permitidos: uno por función junto con sus parámetros y tipos -->
+	<message name="suma">
+		<part name="numero1" type="xsd:float" />
+		<part name="numero2" type="xsd:float" />
+	</message>
+	<message name="resta">
+		<part name="numero1" type="xsd:float" />
+		<part name="numero2" type="xsd:float" />
+	</message>
+	<message name="multiplicacion">
+		<part name="numero1" type="xsd:float" />
+		<part name="numero2" type="xsd:float" />
+	</message>
+	<message name="division">
+		<part name="numero1" type="xsd:float" />
+		<part name="numero2" type="xsd:float" />
+	</message>
+	<message name="aBinario">
+		<part name="numero" type="xsd:int" />
+	</message>
+
+	<!-- Servicios ofrecidos por el servidor -->
+	<portType name="OperacionesDAW">
+		<operation name="suma">
+			<input message="tns:suma" />
+			<output message="tns:returns_resultado" />
+		</operation>
+		<operation name="resta">
+			<input message="tns:resta" />
+			<output message="tns:returns_resultado" />
+		</operation>
+		<operation name="multiplicacion">
+			<input message="tns:multiplicacion" />
+			<output message="tns:returns_resultado" />
+		</operation>
+		<operation name="division">
+			<input message="tns:division" />
+			<output message="tns:returns_resultado" />
+		</operation>
+		<operation name="aBinario">
+			<input message="tns:aBinario" />
+			<output message="tns:returns_resultado" />
+		</operation>
+	</portType>
+
+	<!-- Codificación del servidor -->
+	<binding name="OperacionesDAW_webservices" type="tns:OperacionesDAW">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="suma">
+			<soap:operation soapAction="urn:xmethods-delayed-quotes#suma" />
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="resta">
+			<soap:operation soapAction="urn:xmethods-delayed-quotes#resta" />
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="multiplicacion">
+			<soap:operation soapAction="urn:xmethods-delayed-quotes#multiplicacion" />
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="division">
+			<soap:operation soapAction="urn:xmethods-delayed-quotes#division" />
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="aBinario">
+			<soap:operation soapAction="urn:xmethods-delayed-quotes#aBinario" />
+			<input>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+	</binding>
+
+	<!-- Dónde se encuentra el servidor SOAP -->
+	<service name="2DAW202223">
+		<port name="2DAW202223" binding="tns:OperacionesDAW_webservices">
+			<soap:address location="http://localhost.actividades/ud9/operaciones/servidorOperacionesSOAP.php" />
+		</port>
+	</service>
+</definitions>
