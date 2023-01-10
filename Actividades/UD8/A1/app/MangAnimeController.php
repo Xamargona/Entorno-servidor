@@ -129,6 +129,35 @@ class MangAnimeController
 		require __DIR__ . '/templates/buscarPorDemografia.php';
 	}
 
+	public function buscarCombinada() {
+		$params = [  'nombre' => '',
+					'demografia' => '',
+					'resultado' => []
+				];
+		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_GET['demografia']) || isset($_GET['nombre'])) {
+			$_POST['nombre'] = isset($_GET['nombre']) ? $_GET['nombre'] : $_POST['nombre'];
+			$_POST['demografia'] = isset($_GET['demografia']) ? $_GET['demografia'] : $_POST['demografia'];
+			$orden = isset($_GET['orden']) ? $_GET['orden'] : 'demografia';
+			$by = isset($_GET['by']) ? $_GET['by'] : 'DESC';
+			// INSTANCIA DEL MODELO MANGANIME
+			$mangAnimeModel = new MangAnime(Config::$bd_nombre,
+											Config::$bd_usuario,
+											Config::$bd_clave,
+											Config::$bd_hostname);
+			$params['nombre'] = $_POST['nombre'];
+			$params['demografia'] = $_POST['demografia'];
+			// Si se necesita pasar el orden y el tipo de orden a la vista:
+			$params['orden'] = $orden;
+			$params['by'] = $by;
+			// TODO: completar con la llamada al método del modelo que devuelve los manganimes que coinciden con el demografia
+			$params['resultado'] = $mangAnimeModel->findMangAnimesByCombinada($params['nombre'], $params['demografia'], $params['orden'], $params['by']);  
+
+			unset($mangAnimeModel);
+		}
+		require __DIR__ . '/templates/buscarCombinada.php';
+	}
+
 	public function ver() {
 		if (!isset($_GET['id'])) {
 			header('location: index.php');

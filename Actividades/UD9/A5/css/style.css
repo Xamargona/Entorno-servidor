@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(53, 53, 53);
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: black;
+}
+
+header {
+    width: 100vw;
+    height: 100px;
+    background-color: rgb(141, 141, 141);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+main {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    vertical-align: baseline;
+}
+
+div {
+    padding: 1em;
+    margin: 1em;
+}
+
+.personaje > * {
+    margin: 1em;
+}

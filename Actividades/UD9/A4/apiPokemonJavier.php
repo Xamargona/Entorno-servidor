@@ -35,25 +35,33 @@
 
         if (isset($_GET['numero'])) {
             $numero = $_GET['numero'];
-            // selecciona la informacion de la tabla pokemon y el tipo de la tabla tipo
 
-            $consulta = $conexion->prepare('SELECT * FROM pokemon WHERE numero_pokedex = :numero INNER JOIN pokemon_tipo ON pokemon.numero_pokedex = pokemon_tipo.numero_pokedex INNER JOIN tipo ON pokemon_tipo.id_tipo = tipo.id_tipo');   
+            $consulta = $conexion->prepare('SELECT p.nombre AS Nombre, p.numero_pokedex AS Numero, p.peso AS Peso, p.altura AS Altura, t.nombre AS Tipo FROM pokemon p INNER JOIN pokemon_tipo pt ON pt.numero_pokedex = p.numero_pokedex INNER JOIN tipo t ON t.id_tipo = pt.id_tipo WHERE p.numero_pokedex = :numero');
             $consulta->bindParam(':numero', $numero);
             $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC) + $consulta2->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($resultado)) {
+                throw new Exception('No se ha encontrado ningún resultado con los parámetros recibidos.');
+            }
 
         } else if (isset($_GET['tipo'])) {
             $tipo = $_GET['tipo'];
-            $consulta = $conexion->prepare('SELECT * FROM pokemon_tipo WHERE id_tipo = (SELECT id_tipo FROM tipo WHERE nombre = :tipo)');
+            $consulta = $conexion->prepare('SELECT p.nombre AS Nombre, p.numero_pokedex AS Numero FROM pokemon p INNER JOIN pokemon_tipo pt ON pt.numero_pokedex = p.numero_pokedex INNER JOIN tipo t ON t.id_tipo = pt.id_tipo WHERE t.nombre = :tipo');
             $consulta->bindParam(':tipo', $tipo);
             $consulta->execute();
             $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($resultado)) {
+                throw new Exception('No se ha encontrado ningún resultado con los parámetros recibidos.');
+            }
+            echo 'Pokemon tipo ' . $tipo;
         }
     } catch (Exception $e) {
         echo 'Ha ocurrido un error: ' . $e->getMessage();
-        echo 'No se ha encontrado ningún resultado con los parámetros recibidos';
     }
+
+    unset($conexion);
+    unset($consulta);
 
     if (isset($resultado) && !empty($resultado)) {
         header('Content-Type: application/json');

@@ -42,11 +42,32 @@ class MangAnime {
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function findMangAnimesByCombinada($nombre, $demografia, $orden='estreno', $ascDesc='DESC'){
+		$nombre = htmlspecialchars($nombre);
+		$demografia = htmlspecialchars($demografia);
+		// TODO: crear consulta para buscar MangAnimes por demografia en el orden y sentido indicados usando los parámetros recibidos
+			$sql = ("SELECT * FROM manganime WHERE nombre LIKE ? AND demografia LIKE ? ORDER BY ".$orden." ".$ascDesc);
+			$result = $this->conexion->prepare($sql);
+		$result->execute(['%'.$nombre.'%', '%'.$demografia.'%']);
+	
+		return $result->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	public function getMangAnime($id){
 		$id = htmlspecialchars($id);
 
 		// TODO: crear consulta para buscar un MangAnime por su id usando el parámetro recibido
 		$sql = 'SELECT * FROM manganime WHERE id = ?'; 
+		$result = $this->conexion->prepare($sql);
+		$result->execute([$id]);
+
+		return $result->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function getMangAnimeNombre($id){
+		$id = htmlspecialchars($id);
+
+		$sql = 'SELECT nombre FROM manganime WHERE id = ?'; 
 		$result = $this->conexion->prepare($sql);
 		$result->execute([$id]);
 
